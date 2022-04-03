@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useEffect } from "react/cjs/react.production.min";
 import TasksContext from "../context/TasksContext";
 
 const CertainBoard = () => {
@@ -6,6 +7,8 @@ const CertainBoard = () => {
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState("");
+  const [status, setStatus] = useState("");
+
   const submitHandler = (e) => {
     e.preventDefault();
     ctx.dispatch({
@@ -20,6 +23,8 @@ const CertainBoard = () => {
       },
     });
     setDescription("");
+    setTitle("");
+    setPriority("Medium");
   };
   const descriptionHandler = (e) => {
     setDescription(e.target.value);
@@ -29,6 +34,9 @@ const CertainBoard = () => {
   };
   const priorityHandler = (e) => {
     setPriority(e.target.value);
+  };
+  const statusHandler = (e) => {
+    setStatus(e.target.value);
   };
   return (
     <div>
@@ -54,12 +62,19 @@ const CertainBoard = () => {
         <button type="submit">Add</button>
       </form>
       {ctx.state.map((task) => {
-        if (task.board === "JS") {
+        if (task.board === "JS" && task.status === "ToDo") {
           return (
             <div key={task.id}>
               <h4>{task.title}</h4>
               <p>{task.description}</p>
               <p>{task.priority}</p>
+              <p>
+                <select onChange={statusHandler}>
+                  <option value="ToDo">ToDo</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Done">Done</option>
+                </select>
+              </p>
             </div>
           );
         }
