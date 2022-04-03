@@ -8,10 +8,18 @@ import TasksContext from "./context/TasksContext";
 const stateManager = (state, action) => {
   switch (action.type) {
     case "ADD_TASK":
-      return {
+      return [
         ...state,
-        tasks: [...state.tasks, action.payload],
-      };
+        {
+          id: Math.random(),
+          title: action.payload.title,
+          description: action.payload.description,
+          priority: action.payload.priority,
+          board: action.payload.board,
+          status: action.payload.status,
+        },
+      ];
+
     default:
       return state;
   }
@@ -24,7 +32,7 @@ const App = () => {
     <TasksContext.Provider value={{ state, dispatch }}>
       <Routes>
         <Route path="/" element={<Welcome />} />
-        <Route path="/certainBoard" element={<CertainBoard />} />
+        <Route path="/certain-board" element={<CertainBoard />} />
       </Routes>
     </TasksContext.Provider>
   );
